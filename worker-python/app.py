@@ -21,14 +21,14 @@ def connect_postgres():
    # Vva1VrSRCqqJnYKH
    dbp=os.getenv('dbpasswd') 
    host=os.getenv('POSTGRES_SERVICE_HOST') 
-   db_user = os.getenv('DB_USER', "dave") 
-   db_pass = os.getenv('DB_PASS', "dave") 
+   db_user = os.getenv('DB_USER', "pfruth") 
+   db_pass = os.getenv('DB_PASS', "pfruth") 
    print (dbp) 
    try:
       print ("connecting to the DB") 
       #conn = psycopg2.connect("host=db user=postgres password=dbp host=172.30.114.217")
       #conn = psycopg2.connect ("host={} dbname={} user={} password={}".format("sample-app", "postgres", "dave", "dave") )
-      conn = psycopg2.connect ("host={} dbname={} user={} password={}".format("new-postgresql", "postgres", "dave", "dave"))
+      conn = psycopg2.connect ("host={} dbname={} user={} password={}".format("new-postgresql", "postgres", "pfruth", "pfruth"))
       print ("Successfully connected to PostGres")
       
       cursor = conn.cursor()
