@@ -1,6 +1,6 @@
 # Using official python runtime base image
-#FROM python:2.7-alpine
-FROM python-38:latest
+FROM python:2.7-alpine
+#FROM python-38:latest
 
 # Set the application directory
 WORKDIR /app
