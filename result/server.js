@@ -12,8 +12,7 @@ var express = require('express'),
 
 io.set('transports', ['polling']);
 
-//var port = process.env.PORT || 8080;
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 8080;
 var pgconnectstr = process.env.POSTGRES_CONNECT_STRING;
 
 io.sockets.on('connection', function (socket) {
