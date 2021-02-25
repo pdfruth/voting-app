@@ -1,4 +1,4 @@
-FROM python-38:latest
+FROM python-3x:latest
 
 # Add application sources to a directory that the assemble script expects them
 # and set permissions so that the container runs without root access
