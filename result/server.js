@@ -12,7 +12,9 @@ var express = require('express'),
 
 io.set('transports', ['polling']);
 
-var port = process.env.PORT || 8080;
+//var port = process.env.PORT || 8080;
+var port = process.env.PORT || 3000;
+var pgconnectstr = process.env.POSTGRES_CONNECT_STRING;
 
 io.sockets.on('connection', function (socket) {
 
@@ -23,9 +25,10 @@ io.sockets.on('connection', function (socket) {
   });
 });
 var pool = new pg.Pool({
-
 //  connectionString: 'postgres://postgres:'+passwd+'@db/postgres'
-    connectionString: 'postgres://pfruth:pfruth@new-postgresql/postgres'
+//  connectionString: 'postgres://pfruth:pfruth@new-postgresql/postgres'
+//  connectionString: 'postgres://pfruth:pfruth@10.130.3.185:5432/postgres'
+  connectionString: pgconnectstr
 });
 
 async.retry(
@@ -90,4 +93,5 @@ app.get('/', function (req, res) {
 server.listen(port, function () {
   var port = server.address().port;
   console.log('App running on port ' + port);
+  console.log('Postgres connect string ' + pgconnectstr);
 });
