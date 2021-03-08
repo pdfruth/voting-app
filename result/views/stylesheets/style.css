@@ -88,12 +88,12 @@ body{
   text-transform: uppercase;
 }
 
-#choice .choice.moderna{
+#choice .choice.pfizer{
   color: #00cbca;
   float: right;
 }
 
-#choice .choice.pfizer{
+#choice .choice.moderna{
   color: #2196f3;
   float: left;
 }
