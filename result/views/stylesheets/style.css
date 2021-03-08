@@ -88,12 +88,12 @@ body{
   text-transform: uppercase;
 }
 
-#choice .choice.petrol{
+#choice .choice.moderna{
   color: #00cbca;
   float: right;
 }
 
-#choice .choice.electric{
+#choice .choice.pfizer{
   color: #2196f3;
   float: left;
 }
