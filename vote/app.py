@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, make_response, g
 from redis import Redis
 import os
+import platform
 import socket
 import random
 import json
@@ -8,6 +9,7 @@ import json
 option_a = os.getenv('OPTION_A', "Moderna")
 option_b = os.getenv('OPTION_B', "Pfizer")
 hostname = socket.gethostname()
+proc = platform.processor()
 
 # may have to have env variable for Z
 
@@ -21,6 +23,7 @@ def get_redis():
         # g.redis = Redis(host="10.130.3.187", port="6379", db=0, socket_timeout=5)
         print (g.redis.ping())
     return g.redis
+
 
 @app.route("/", methods=['POST','GET'])
 def hello():
@@ -44,6 +47,7 @@ def hello():
         option_b=option_b,
         hostname=hostname,
         vote=vote,
+        proc=proc,
     ))
     resp.set_cookie('voter_id', voter_id)
     return resp
