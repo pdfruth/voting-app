@@ -17,16 +17,17 @@ def get_redis():
 
 def connect_postgres(): 
    # Vva1VrSRCqqJnYKH
-   dbp=os.getenv('dbpasswd') 
-   host=os.getenv('POSTGRES_SERVICE_HOST') 
+   host = os.getenv('POSTGRES_SERVICE_HOST')
+   db_name = os.getenv('DB_NAME', "db") 
    db_user = os.getenv('DB_USER', "pfruth") 
    db_pass = os.getenv('DB_PASS', "pfruth") 
-   print (dbp) 
+   print (db_name) 
    try:
       print ("connecting to the DB") 
       #conn = psycopg2.connect("host=db user=postgres password=dbp host=172.30.114.217")
       #conn = psycopg2.connect ("host={} dbname={} user={} password={}".format("sample-app", "postgres", "dave", "dave") )
-      conn = psycopg2.connect ("host={} dbname={} user={} password={}".format("new-postgresql", "postgres", "pfruth", "pfruth"))
+      #conn = psycopg2.connect ("host={} dbname={} user={} password={}".format("new-postgresql", "postgres", "pfruth", "pfruth"))
+      conn = psycopg2.connect ("host={} dbname={} user={} password={}".format("new-postgresql", db_name, db_user, db_pass))
       print ("Successfully connected to PostGres")
       
       cursor = conn.cursor()
