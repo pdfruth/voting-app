@@ -9,7 +9,8 @@ import json
 def get_redis():
    redishost = os.environ.get('REDIS_HOST', 'new-redis')
    print ("Connecting to Redis using " + redishost)
-   redis_conn = Redis(host=redishost, db=0, socket_timeout=5) 
+   #redis_conn = Redis(host=redishost, db=0, socket_timeout=5)
+   redis_conn = Redis(host=redishost, db=0, socket_timeout=5, password='admin')
    redis_conn.ping()
    print ("connected to redis!") 
    return redis_conn
