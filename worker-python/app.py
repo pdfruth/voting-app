@@ -8,26 +8,27 @@ import json
 
 def get_redis():
    redishost = os.environ.get('REDIS_HOST', 'new-redis')
+   redispassword = os.environ.get('REDIS_PASSWORD', 'password')
    print ("Connecting to Redis using " + redishost)
    #redis_conn = Redis(host=redishost, db=0, socket_timeout=5)
-   redis_conn = Redis(host=redishost, db=0, socket_timeout=5, password='admin')
+   redis_conn = Redis(host=redishost, db=0, socket_timeout=5, password=redispassword)
    redis_conn.ping()
    print ("connected to redis!") 
    return redis_conn
 
 def connect_postgres(): 
    # Vva1VrSRCqqJnYKH
-   host = os.getenv('POSTGRES_SERVICE_HOST')
+   host = os.getenv('POSTGRES_SERVICE_HOST', "new-postresql")
    db_name = os.getenv('DB_NAME', "db") 
-   db_user = os.getenv('DB_USER', "pfruth") 
-   db_pass = os.getenv('DB_PASS', "pfruth") 
+   db_user = os.getenv('DB_USER', "admin") 
+   db_pass = os.getenv('DB_PASS', "admin") 
    print (db_name) 
    try:
       print ("connecting to the DB") 
       #conn = psycopg2.connect("host=db user=postgres password=dbp host=172.30.114.217")
       #conn = psycopg2.connect ("host={} dbname={} user={} password={}".format("sample-app", "postgres", "dave", "dave") )
       #conn = psycopg2.connect ("host={} dbname={} user={} password={}".format("new-postgresql", "postgres", "pfruth", "pfruth"))
-      conn = psycopg2.connect ("host={} dbname={} user={} password={}".format("new-postgresql", db_name, db_user, db_pass))
+      conn = psycopg2.connect ("host={} dbname={} user={} password={}".format(host, db_name, db_user, db_pass))
       print ("Successfully connected to PostGres")
       
       cursor = conn.cursor()
