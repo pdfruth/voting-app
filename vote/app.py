@@ -19,7 +19,8 @@ def get_redis():
     if not hasattr(g, 'redis'):
         redishost = os.environ.get('REDIS_HOST', 'new-redis')
         print ("Connecting to Redis using " + redishost)
-        g.redis = Redis(host=redishost, db=0, socket_timeout=5)
+        # g.redis = Redis(host=redishost, db=0, socket_timeout=5)
+        g.redis = Redis(host=redishost, db=0, socket_timeout=5, password='admin')
         # g.redis = Redis(host="10.130.3.187", port="6379", db=0, socket_timeout=5)
         print (g.redis.ping())
     return g.redis
