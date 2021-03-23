@@ -18,7 +18,7 @@ def get_redis():
 
 def connect_postgres(): 
    # Vva1VrSRCqqJnYKH
-   host = os.getenv('POSTGRES_SERVICE_HOST', "new-postresql")
+   host = os.getenv('POSTGRES_SERVICE_HOST', "new-postgresql")
    db_name = os.getenv('DB_NAME', "db") 
    db_user = os.getenv('DB_USER', "admin") 
    db_pass = os.getenv('DB_PASS', "admin") 
