@@ -17,30 +17,48 @@ def get_redis():
    return redis_conn
 
 def connect_postgres(): 
-   # Vva1VrSRCqqJnYKH
    host = os.getenv('POSTGRES_SERVICE_HOST', "new-postgresql")
    db_name = os.getenv('DB_NAME', "db") 
    db_user = os.getenv('DB_USER', "admin") 
    db_pass = os.getenv('DB_PASS', "admin") 
-   print (db_name) 
    try:
       print ("connecting to the DB") 
-      #conn = psycopg2.connect("host=db user=postgres password=dbp host=172.30.114.217")
-      #conn = psycopg2.connect ("host={} dbname={} user={} password={}".format("sample-app", "postgres", "dave", "dave") )
-      #conn = psycopg2.connect ("host={} dbname={} user={} password={}".format("new-postgresql", "postgres", "pfruth", "pfruth"))
       conn = psycopg2.connect ("host={} dbname={} user={} password={}".format(host, db_name, db_user, db_pass))
       print ("Successfully connected to Postgres")
       
-      cursor = conn.cursor()
-      sqlCreateTable = "CREATE TABLE IF NOT EXISTS public.votes (id VARCHAR(255) NOT NULL, vote VARCHAR(255) NOT NULL);"
-      cursor.execute(sqlCreateTable)
-      print ("votes table created") 
-      conn.commit()
-      cursor.close()
       return conn 
 
    except Exception as e:
+      print ("error connecting to the DB")
       print (e)
+
+def create_postgres_table():
+    try: 
+       conn = connect_postgres()
+
+    except Exception as e:
+       print ("error connecting to postgres")  
+       print (str(e)) 
+
+    try:
+       cursor = conn.cursor()
+       sqlCreateTable = "CREATE TABLE IF NOT EXISTS public.votes (id VARCHAR(255) NOT NULL, vote VARCHAR(255) NOT NULL);"
+       cursor.execute(sqlCreateTable)
+       print ("votes table created") 
+       conn.commit()
+       cursor.close() 
+
+    except Exception as e:
+       print ("error creating database table")
+       print (e)
+
+    try:
+      conn.close()
+
+    except Exception as e:
+       print ("error closing connection to postgres")
+       print (str(e))
+
 
 def insert_postgres(data):
     try:
@@ -94,4 +112,5 @@ def process_votes():
           print(e)
 
 if __name__ == '__main__':
+    create_postgres_table()
     process_votes()
