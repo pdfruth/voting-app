@@ -29,7 +29,7 @@ def connect_postgres():
       #conn = psycopg2.connect ("host={} dbname={} user={} password={}".format("sample-app", "postgres", "dave", "dave") )
       #conn = psycopg2.connect ("host={} dbname={} user={} password={}".format("new-postgresql", "postgres", "pfruth", "pfruth"))
       conn = psycopg2.connect ("host={} dbname={} user={} password={}".format(host, db_name, db_user, db_pass))
-      print ("Successfully connected to PostGres")
+      print ("Successfully connected to Postgres")
       
       cursor = conn.cursor()
       sqlCreateTable = "CREATE TABLE IF NOT EXISTS public.votes (id VARCHAR(255) NOT NULL, vote VARCHAR(255) NOT NULL);"
@@ -42,25 +42,40 @@ def connect_postgres():
    except Exception as e:
       print (e)
 
-def insert_postgres(conn, data): 
-    try: 
-       cur = conn.cursor() 
-       cur.execute("insert into votes values (%s, %s)",
-       ( 
-          data.get("voter_id"), 
-          data.get("vote")
-       ))
-       conn.commit()  
-       print ("row inserted into DB") 
-       cur.close()
+def insert_postgres(data):
+    try:
+       conn = connect_postgres()
 
-    except Exception as e: 
-       conn.rollback()
-       cur.close()
-       print ("error inserting into postgres")  
+    except Exception as e:
+       print ("error connecting to postgres")  
        print (str(e)) 
 
-def process_votes(db_conn):
+
+    try:
+       cur = conn.cursor()
+       cur.execute("insert into votes values (%s, %s)",
+       (
+          data.get("voter_id"),
+          data.get("vote")
+       ))
+       conn.commit()
+       print ("row inserted into DB")
+       cur.close()
+
+    except Exception as e:
+       conn.rollback()
+       cur.close()
+       print ("error inserting into postgres")
+       print (str(e))
+
+    try:
+      conn.close()
+
+    except Exception as e:
+       print ("error closing connection to postgres")
+       print (str(e))
+
+def process_votes():
     redis = get_redis()
     redis.ping()  
     while True: 
@@ -70,7 +85,7 @@ def process_votes(db_conn):
           if (msg != None): 
              print ("reading message from redis")
              msg_dict = json.loads(msg)
-             insert_postgres(db_conn, msg_dict) 
+             insert_postgres(msg_dict) 
           # will look like this
           # {"vote": "a", "voter_id": "71f0caa7172a84eb"}
           time.sleep(3)        
@@ -79,6 +94,4 @@ def process_votes(db_conn):
           print(e)
 
 if __name__ == '__main__':
-    db_conn = connect_postgres()
-    process_votes(db_conn)
-    db_conn.close()
+    process_votes()
