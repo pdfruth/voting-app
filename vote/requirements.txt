@@ -1,0 +1,5 @@
+Flask
+Redis
+gunicorn
+pyLint
+flake8
